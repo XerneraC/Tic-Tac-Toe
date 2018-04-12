@@ -114,4 +114,4 @@ class ttt:
 
 
 test = ttt()
-test.play()
+test.pvp()
