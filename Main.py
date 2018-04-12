@@ -1,6 +1,10 @@
 class ttt:
 	def __init__(self):
-		self.board = [["-", "-", "-"], ["-", "-", "-"], ["-", "-", "-"]]
+		self.board = [
+			["-", "-", "-"],
+			["-", "-", "-"],
+			["-", "-", "-"]
+		]
 		self.winner = "-"
 
 	def xMove(self, x, y):
@@ -70,6 +74,13 @@ class ttt:
 		if (self.board[0][2] == self.board[1][2] == self.board[2][2]) & (self.board[0][2] != "-"):
 			winner = self.board[0][2]
 
+		noEmpties = 0
+		for row in self.board:
+			noEmpties += row.count("-")
+
+		if noEmpties == 0:
+			winner = "N"
+
 		return winner
 
 	def doPlayerX(self):
@@ -110,7 +121,11 @@ class ttt:
 				break
 
 			self.doPlayerO()
-		print("Yay! " + self.winner + " won!")
+		if self.winner != "N":
+			print("Yay! " + self.winner + " won!")
+		else:
+			print("It's a draw!\n\n")
+		self.printGame()
 
 
 test = ttt()
