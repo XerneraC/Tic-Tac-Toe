@@ -1,3 +1,5 @@
+import random
+
 class ttt:
 	def __init__(self):
 		self.board = [
@@ -55,6 +57,13 @@ class ttt:
 	def whoWon(self):
 		winner = "-"
 
+		noEmpties = 0
+		for row in self.board:
+			noEmpties += row.count("-")
+
+		if noEmpties == 0:
+			winner = "N"
+
 		if (self.board[0][0] == self.board[1][1] == self.board[2][2]) & (self.board[0][0] != "-"):
 			winner = self.board[0][0]
 		if (self.board[0][2] == self.board[1][1] == self.board[2][0]) & (self.board[0][2] != "-"):
@@ -73,13 +82,6 @@ class ttt:
 			winner = self.board[0][1]
 		if (self.board[0][2] == self.board[1][2] == self.board[2][2]) & (self.board[0][2] != "-"):
 			winner = self.board[0][2]
-
-		noEmpties = 0
-		for row in self.board:
-			noEmpties += row.count("-")
-
-		if noEmpties == 0:
-			winner = "N"
 
 		return winner
 
@@ -113,6 +115,24 @@ class ttt:
 
 		self.oMove(x, y)
 
+	def doRandomX(self):
+		possibleCoordinates = []
+		for i in range(len(self.board)):
+			for j in range(len(self.board[i])):
+				if self.board[i][j] == "-":
+					possibleCoordinates.append([i, j])
+		coordinate = random.choice(possibleCoordinates)
+		self.xMove(coordinate[0] + 1, coordinate[1] + 1)
+
+	def doRandomO(self):
+		possibleCoordinates = []
+		for i in range(len(self.board)):
+			for j in range(len(self.board[i])):
+				if self.board[i][j] == "-":
+					possibleCoordinates.append([i, j])
+		coordinate = random.choice(possibleCoordinates)
+		self.oMove(coordinate[0] + 1, coordinate[1] + 1)
+
 	def pvp(self):
 		while self.winner == "-":
 			self.doPlayerX()
@@ -124,9 +144,27 @@ class ttt:
 		if self.winner != "N":
 			print("Yay! " + self.winner + " won!")
 		else:
+			print("It's a draw!")
+		print()
+		self.printGame()
+
+	def bvb(self):
+		while self.winner == "-":
+			self.printGame()
+			self.doRandomX()
+			print()
+
+			if self.whoWon() != "-":
+				break
+
+			self.printGame()
+			self.doRandomO()
+			print()
+		if self.winner != "N":
+			print("Yay! " + self.winner + " won!")
+		else:
 			print("It's a draw!\n\n")
 		self.printGame()
 
-
 test = ttt()
-test.pvp()
+test.bvb()
