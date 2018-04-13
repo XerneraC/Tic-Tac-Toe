@@ -235,16 +235,62 @@ class ttt:
 			move = random.choice(possibleWinningMovesX)
 			self.oMove(move[0] + 1, move[1] + 1)
 		
-		elif self.board[1][1] == "-":
-			self.oMove(2, 2)
-		
 		elif len(possibleCorners) != 0:
 			move = random.choice(possibleCorners)
 			self.oMove(move[0] + 1, move[1] + 1)
+		
+		elif self.board[1][1] == "-":
+			self.oMove(2, 2)
 
 		elif len(possibleSides) != 0:
 			move = random.choice(possibleSides)
 			self.oMove(move[0] + 1, move[1] + 1)
+
+	def doDumbX(self):
+		possibleWinningMovesX = []
+		possibleWinningMovesO = []
+
+		possibleWinningMoves = self.check2InARow()
+		for move in possibleWinningMoves:
+			if move[2] == "X":
+				possibleWinningMovesX.append(move)
+			if move[2] == "O":
+				possibleWinningMovesO.append(move)
+
+
+		if len(possibleWinningMovesX) != 0:
+			move = random.choice(possibleWinningMovesX)
+			self.xMove(move[0] + 1, move[1] + 1)
+
+		elif len(possibleWinningMovesO) != 0:
+			move = random.choice(possibleWinningMovesO)
+			self.xMove(move[0] + 1, move[1] + 1)
+
+		else:
+			self.doRandomX()
+
+	def doDumbO(self):
+		possibleWinningMovesX = []
+		possibleWinningMovesO = []
+
+		possibleWinningMoves = self.check2InARow()
+		for move in possibleWinningMoves:
+			if move[2] == "X":
+				possibleWinningMovesX.append(move)
+			if move[2] == "O":
+				possibleWinningMovesO.append(move)
+
+
+		if len(possibleWinningMovesO) != 0:
+			move = random.choice(possibleWinningMovesO)
+			self.oMove(move[0] + 1, move[1] + 1)
+
+		elif len(possibleWinningMovesX) != 0:
+			move = random.choice(possibleWinningMovesX)
+			self.oMove(move[0] + 1, move[1] + 1)
+
+		else:
+			self.doRandomO()
 
 	def pvp(self):
 		while self.winner == "-":
@@ -264,14 +310,14 @@ class ttt:
 	def bvb(self):
 		while self.winner == "-":
 			self.printGame()
-			self.doSimpleBotX()
+			self.doDumbX()
 			print()
 
 			if self.whoWon() != "-":
 				break
 
 			self.printGame()
-			self.doSimpleBotO()
+			self.doDumbO()
 			print()
 		if self.winner != "N":
 			print("Yay! " + self.winner + " won!")
