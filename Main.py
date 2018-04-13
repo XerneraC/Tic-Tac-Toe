@@ -165,6 +165,87 @@ class ttt:
 		coordinate = random.choice(possibleCoordinates)
 		self.oMove(coordinate[0] + 1, coordinate[1] + 1)
 
+	def doSimpleBotX(self):
+		possibleWinningMovesX = []
+		possibleWinningMovesO = []
+		possibleCorners = []
+		possibleSides = []
+
+		possibleWinningMoves = self.check2InARow()
+		for move in possibleWinningMoves:
+			if move[2] == "X":
+				possibleWinningMovesX.append(move)
+			if move[2] == "O":
+				possibleWinningMovesO.append(move)
+
+		for corner in [0, 0], [0, 2], [2, 2], [2, 0]:
+			if self.board[corner[0]][corner[1]] == "-":
+				possibleCorners.append(corner)
+
+		for side in [0, 1], [1, 2], [2, 1], [1, 0]:
+			if self.board[side[0]][side[1]] == "-":
+				possibleSides.append(side)
+
+
+		if len(possibleWinningMovesX) != 0:
+			move = random.choice(possibleWinningMovesX)
+			self.xMove(move[0] + 1, move[1] + 1)
+
+		elif len(possibleWinningMovesO) != 0:
+			move = random.choice(possibleWinningMovesO)
+			self.xMove(move[0] + 1, move[1] + 1)
+
+		elif len(possibleCorners) != 0:
+			move = random.choice(possibleCorners)
+			self.xMove(move[0] + 1, move[1] + 1)
+
+		elif self.board[1][1] == "-":
+			self.xMove(2, 2)
+
+		elif len(possibleSides) != 0:
+			move = random.choice(possibleSides)
+			self.xMove(move[0] + 1, move[1] + 1)
+
+	def doSimpleBotO(self):
+		possibleWinningMovesX = []
+		possibleWinningMovesO = []
+		possibleCorners = []
+		possibleSides = []
+
+		possibleWinningMoves = self.check2InARow()
+		for move in possibleWinningMoves:
+			if move[2] == "X":
+				possibleWinningMovesX.append(move)
+			if move[2] == "O":
+				possibleWinningMovesO.append(move)
+
+		for corner in [0, 0], [0, 2], [2, 2], [2, 0]:
+			if self.board[corner[0]][corner[1]] == "-":
+				possibleCorners.append(corner)
+
+		for side in [0, 1], [1, 2], [2, 1], [1, 0]:
+			if self.board[side[0]][side[1]] == "-":
+				possibleSides.append(side)
+
+		if len(possibleWinningMovesO) != 0:
+			move = random.choice(possibleWinningMovesO)
+			self.oMove(move[0] + 1, move[1] + 1)
+
+		elif len(possibleWinningMovesX) != 0:
+			move = random.choice(possibleWinningMovesX)
+			self.oMove(move[0] + 1, move[1] + 1)
+		
+		elif self.board[1][1] == "-":
+			self.oMove(2, 2)
+		
+		elif len(possibleCorners) != 0:
+			move = random.choice(possibleCorners)
+			self.oMove(move[0] + 1, move[1] + 1)
+
+		elif len(possibleSides) != 0:
+			move = random.choice(possibleSides)
+			self.oMove(move[0] + 1, move[1] + 1)
+
 	def pvp(self):
 		while self.winner == "-":
 			self.doPlayerX()
@@ -183,14 +264,14 @@ class ttt:
 	def bvb(self):
 		while self.winner == "-":
 			self.printGame()
-			self.doRandomX()
+			self.doSimpleBotX()
 			print()
 
 			if self.whoWon() != "-":
 				break
 
 			self.printGame()
-			self.doRandomO()
+			self.doSimpleBotO()
 			print()
 		if self.winner != "N":
 			print("Yay! " + self.winner + " won!")
