@@ -64,26 +64,58 @@ class ttt:
 		if noEmpties == 0:
 			winner = "N"
 
-		if (self.board[0][0] == self.board[1][1] == self.board[2][2]) & (self.board[0][0] != "-"):
-			winner = self.board[0][0]
-		if (self.board[0][2] == self.board[1][1] == self.board[2][0]) & (self.board[0][2] != "-"):
-			winner = self.board[0][2]
+		if (self.board[0][0] == self.board[1][1] == self.board[2][2]) & (self.board[0][0] != "-"): winner = self.board[0][0]
+		if (self.board[0][2] == self.board[1][1] == self.board[2][0]) & (self.board[0][2] != "-"): winner = self.board[0][2]
 
-		if (self.board[0][0] == self.board[0][1] == self.board[0][2]) & (self.board[0][0] != "-"):
-			winner = self.board[0][0]
-		if (self.board[1][0] == self.board[1][1] == self.board[1][2]) & (self.board[1][0] != "-"):
-			winner = self.board[1][0]
-		if (self.board[2][0] == self.board[2][1] == self.board[2][2]) & (self.board[2][0] != "-"):
-			winner = self.board[2][0]
+		if (self.board[0][0] == self.board[0][1] == self.board[0][2]) & (self.board[0][0] != "-"): winner = self.board[0][0]
+		if (self.board[1][0] == self.board[1][1] == self.board[1][2]) & (self.board[1][0] != "-"): winner = self.board[1][0]
+		if (self.board[2][0] == self.board[2][1] == self.board[2][2]) & (self.board[2][0] != "-"): winner = self.board[2][0]
 
-		if (self.board[0][0] == self.board[1][0] == self.board[2][0]) & (self.board[0][0] != "-"):
-			winner = self.board[0][0]
-		if (self.board[0][1] == self.board[1][1] == self.board[2][1]) & (self.board[0][1] != "-"):
-			winner = self.board[0][1]
-		if (self.board[0][2] == self.board[1][2] == self.board[2][2]) & (self.board[0][2] != "-"):
-			winner = self.board[0][2]
+		if (self.board[0][0] == self.board[1][0] == self.board[2][0]) & (self.board[0][0] != "-"): winner = self.board[0][0]
+		if (self.board[0][1] == self.board[1][1] == self.board[2][1]) & (self.board[0][1] != "-"): winner = self.board[0][1]
+		if (self.board[0][2] == self.board[1][2] == self.board[2][2]) & (self.board[0][2] != "-"): winner = self.board[0][2]
 
 		return winner
+
+	def check2InARow(self):
+		possibleCoordinates = []
+
+		if (self.board[0][0] == self.board[1][1] != self.board[2][2]) & (self.board[0][0] != "-") & (self.board[2][2] == "-"): possibleCoordinates.append([2, 2, self.board[0][0]])
+		if (self.board[0][2] == self.board[1][1] != self.board[2][0]) & (self.board[0][2] != "-") & (self.board[2][0] == "-"): possibleCoordinates.append([2, 0, self.board[0][2]])
+
+		if (self.board[0][0] == self.board[0][1] != self.board[0][2]) & (self.board[0][0] != "-") & (self.board[0][2] == "-"): possibleCoordinates.append([0, 2, self.board[0][0]])
+		if (self.board[1][0] == self.board[1][1] != self.board[1][2]) & (self.board[1][0] != "-") & (self.board[1][2] == "-"): possibleCoordinates.append([1, 2, self.board[1][0]])
+		if (self.board[2][0] == self.board[2][1] != self.board[2][2]) & (self.board[2][0] != "-") & (self.board[2][2] == "-"): possibleCoordinates.append([2, 2, self.board[2][0]])
+
+		if (self.board[0][0] == self.board[1][0] != self.board[2][0]) & (self.board[0][0] != "-") & (self.board[2][0] == "-"): possibleCoordinates.append([2, 0, self.board[0][0]])
+		if (self.board[0][1] == self.board[1][1] != self.board[2][1]) & (self.board[0][1] != "-") & (self.board[2][1] == "-"): possibleCoordinates.append([2, 1, self.board[0][1]])
+		if (self.board[0][2] == self.board[1][2] != self.board[2][2]) & (self.board[0][2] != "-") & (self.board[2][2] == "-"): possibleCoordinates.append([2, 2, self.board[0][2]])
+
+
+		if (self.board[0][0] != self.board[1][1] == self.board[2][2]) & (self.board[2][2] != "-") & (self.board[0][0] == "-"): possibleCoordinates.append([0, 0, self.board[2][2]])
+		if (self.board[0][2] != self.board[1][1] == self.board[2][0]) & (self.board[2][0] != "-") & (self.board[0][2] == "-"): possibleCoordinates.append([0, 2, self.board[2][0]])
+
+		if (self.board[0][0] != self.board[0][1] == self.board[0][2]) & (self.board[0][2] != "-") & (self.board[0][0] == "-"): possibleCoordinates.append([0, 0, self.board[0][2]])
+		if (self.board[1][0] != self.board[1][1] == self.board[1][2]) & (self.board[1][2] != "-") & (self.board[1][0] == "-"): possibleCoordinates.append([1, 0, self.board[1][2]])
+		if (self.board[2][0] != self.board[2][1] == self.board[2][2]) & (self.board[2][2] != "-") & (self.board[2][0] == "-"): possibleCoordinates.append([2, 0, self.board[2][2]])
+
+		if (self.board[0][0] != self.board[1][0] == self.board[2][0]) & (self.board[2][0] != "-") & (self.board[0][0] == "-"): possibleCoordinates.append([0, 0, self.board[2][0]])
+		if (self.board[0][1] != self.board[1][1] == self.board[2][1]) & (self.board[2][1] != "-") & (self.board[0][1] == "-"): possibleCoordinates.append([0, 1, self.board[2][1]])
+		if (self.board[0][2] != self.board[1][2] == self.board[2][2]) & (self.board[2][2] != "-") & (self.board[0][2] == "-"): possibleCoordinates.append([0, 2, self.board[2][2]])
+
+
+		if (self.board[1][1] != self.board[0][0] == self.board[2][2]) & (self.board[2][2] != "-") & (self.board[1][1] == "-"): possibleCoordinates.append([1, 1, self.board[2][2]])
+		if (self.board[1][1] != self.board[0][2] == self.board[2][0]) & (self.board[2][0] != "-") & (self.board[1][1] == "-"): possibleCoordinates.append([1, 1, self.board[2][0]])
+
+		if (self.board[0][1] != self.board[0][0] == self.board[0][2]) & (self.board[0][2] != "-") & (self.board[0][1] == "-"): possibleCoordinates.append([0, 1, self.board[0][2]])
+		if (self.board[1][1] != self.board[1][0] == self.board[1][2]) & (self.board[1][2] != "-") & (self.board[1][1] == "-"): possibleCoordinates.append([1, 1, self.board[1][2]])
+		if (self.board[2][1] != self.board[2][0] == self.board[2][2]) & (self.board[2][2] != "-") & (self.board[2][1] == "-"): possibleCoordinates.append([2, 1, self.board[2][2]])
+
+		if (self.board[1][0] != self.board[0][0] == self.board[2][0]) & (self.board[2][0] != "-") & (self.board[1][0] == "-"): possibleCoordinates.append([1, 0, self.board[2][0]])
+		if (self.board[1][1] != self.board[0][1] == self.board[2][1]) & (self.board[2][1] != "-") & (self.board[1][1] == "-"): possibleCoordinates.append([1, 1, self.board[2][1]])
+		if (self.board[1][2] != self.board[0][2] == self.board[2][2]) & (self.board[2][2] != "-") & (self.board[1][2] == "-"): possibleCoordinates.append([1, 2, self.board[2][2]])
+
+		return possibleCoordinates
 
 	def doPlayerX(self):
 		self.printGame()
