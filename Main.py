@@ -1,7 +1,18 @@
 import random
+import numpy
 
 class ttt:
-	def __init__(self):
+	def __init__(self, botXDiff = 0.0, botODiff = 0.0):
+		self.board = [
+			["-", "-", "-"],
+			["-", "-", "-"],
+			["-", "-", "-"]
+		]
+		self.winner = "-"
+		self.botXDiff = botXDiff
+		self.botODiff = botODiff
+
+	def reset(self):
 		self.board = [
 			["-", "-", "-"],
 			["-", "-", "-"],
@@ -292,6 +303,32 @@ class ttt:
 		else:
 			self.doRandomO()
 
+	def aiMoveX(self):
+		difficulty = self.botXDiff
+		botDiffs = []
+		wheights = []
+		for lvl in range(3):
+			botDiffs.append(lvl)
+			wheights.append(2-abs(difficulty-float(lvl)) if (2-abs(difficulty-float(lvl)) > 0.0) else 0.0)
+		bot = numpy.random.choice(botDiffs, 1, wheights)
+		if bot == 0: self.doRandomX()
+		if bot == 1: self.doDumbX()
+		if bot == 2: self.doSimpleBotX()
+
+	def aiMoveO(self):
+		difficulty = self.botODiff
+		botDiffs = []
+		wheights = []
+		for lvl in range(3):
+			botDiffs.append(lvl)
+			wheights.append(2-abs(difficulty-float(lvl)) if (2-abs(difficulty-float(lvl)) > 0.0) else 0.0)
+		bot = numpy.random.choice(botDiffs, 1, wheights)
+		if bot == 0: self.doRandomO()
+		if bot == 1: self.doDumbO()
+		if bot == 2: self.doSimpleBotO()
+		
+
+
 	def pvp(self):
 		while self.winner == "-":
 			self.doPlayerX()
@@ -310,14 +347,14 @@ class ttt:
 	def bvb(self):
 		while self.winner == "-":
 			self.printGame()
-			self.doDumbX()
+			self.aiMoveX()
 			print()
 
 			if self.whoWon() != "-":
 				break
 
 			self.printGame()
-			self.doDumbO()
+			self.aiMoveO()
 			print()
 		if self.winner != "N":
 			print("Yay! " + self.winner + " won!")
@@ -325,5 +362,5 @@ class ttt:
 			print("It's a draw!\n\n")
 		self.printGame()
 
-test = ttt()
-test.bvb()
+game = ttt(3.0,0.0)
+game.bvb()
